@@ -9,24 +9,18 @@
             :key="city.id"
             @click="showList(`listCity`)"
           >
-            <div v-if="listCity">{{ city.name }}</div>
+            <div v-if="listCity" @click="getCity(city)">{{ city.name }}</div>
           </div>
         </div>
         <div :class="{ departure__rendering_hide: !listAirpost }">
           <div
             class="departure__airport"
-            v-for="city in cities"
-            :key="city.id"
+            v-for="(airport, index) in selectedCity.airports"
+            :key="index"
             @click="showList(`listAirpost`)"
           >
             <div v-if="listAirpost">
-              <div
-                v-for="(airport, index) in city.airports"
-                :key="index"
-                class="departure__airport__name"
-              >
-                {{ airport.name }}
-              </div>
+              <div>{{ airport.name }}</div>
             </div>
           </div>
         </div>
@@ -56,13 +50,23 @@ export default {
       cities: createStore.state.cities,
       listCity: false,
       listAirpost: false,
+      allAirports: false,
+      citiesAirports: [],
+      selectedCity: {},
     };
   },
   methods: {
-    getCity() {},
+    getCity(city) {
+      this.selectedCity = city;
+      console.log(this.selectedCity);
+    },
     showList(argument) {
       if (argument === "listCity") this.listCity = !this.listCity;
       if (argument === "listAirpost") this.listAirpost = !this.listAirpost;
+    },
+    showAllAirports(citiesAirports) {
+      this.citiesAirports = citiesAirports.airports;
+      this.allAirports = !this.allAirports;
     },
   },
 };
@@ -110,6 +114,9 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: rgb(69, 83, 18);
+}
+.departure__airport:hover {
+  outline: 2px solid white;
 }
 
 .departure__airport__name {

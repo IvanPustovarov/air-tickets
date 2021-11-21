@@ -85,6 +85,9 @@ export default createStore({
           {
             name: "Chheklapkok",
           },
+          {
+            name: "Gon",
+          },
         ],
         companies: [
           {
